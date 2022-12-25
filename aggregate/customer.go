@@ -26,7 +26,7 @@ func (c *Customer) GetName() string {
 	return c.person.Name
 }
 
-func (c *Customer) SetName(name string) error {
+func (c *Customer) UpdateName(name string) error {
 	if name == "" {
 		return ErrorEmptyName
 	}
@@ -36,10 +36,6 @@ func (c *Customer) SetName(name string) error {
 }
 
 func NewCustomer(name string) (*Customer, error) {
-	if name == "" {
-		return nil, ErrorEmptyName
-	}
-
 	customer := &Customer{
 		person: &entity.Person{
 			Name: name,
@@ -49,5 +45,17 @@ func NewCustomer(name string) (*Customer, error) {
 		transactions: []*valueobject.Transaction{},
 	}
 
+	if err := customer.Validate(); err != nil {
+		return nil, err
+	}
+
 	return customer, nil
+}
+
+func (c *Customer) Validate() error {
+	if c.person.Name == "" {
+		return ErrorEmptyName
+	}
+
+	return nil
 }
