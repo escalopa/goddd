@@ -2,12 +2,13 @@ package services
 
 import (
 	repo "github.com/escalopa/ddd-go/domain/repository"
+	"github.com/google/uuid"
 )
 
 type OrderConfig func(os OrderService) error
 
 type OrderService interface {
-	PlaceOrder(customerID string, itemIDs []string) (float64, error)
+	PlaceOrder(customerID string, itemIDs []uuid.UUID) (float64, error)
 	InjectCustomerRepository(cr repo.CustomerRepository)
 	InjectProductRepository(pr repo.ProductRepository)
 }

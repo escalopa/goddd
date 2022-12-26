@@ -1,11 +1,13 @@
 package services
 
 import (
-	"github.com/escalopa/ddd-go/aggregate"
-	"github.com/escalopa/ddd-go/domain/repository"
 	"log"
 	"strconv"
 	"testing"
+
+	"github.com/escalopa/ddd-go/aggregate"
+	"github.com/escalopa/ddd-go/domain/repository"
+	"github.com/google/uuid"
 )
 
 var tos OrderService
@@ -30,11 +32,11 @@ func TestMain(m *testing.M) {
 }
 
 func TestOrderServiceImpl_PlaceOrder(t *testing.T) {
-	var itemIDs []string
+	var itemIDs []uuid.UUID
 	var expectedTotal float64
 	for _, p := range tprod {
 		expectedTotal += p.GetPrice()
-		itemIDs = append(itemIDs, p.GetID())
+		itemIDs = append(itemIDs, uuid.MustParse(p.GetID()))
 	}
 
 	total, err := tos.PlaceOrder(tcust.GetID(), itemIDs)

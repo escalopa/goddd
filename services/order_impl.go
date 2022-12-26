@@ -5,6 +5,7 @@ import (
 
 	"github.com/escalopa/ddd-go/aggregate"
 	repo "github.com/escalopa/ddd-go/domain/repository"
+	"github.com/google/uuid"
 )
 
 type OrderServiceImpl struct {
@@ -23,7 +24,7 @@ func NewOrderServiceImpl(cfgs ...OrderConfig) (OrderService, error) {
 	return s, nil
 }
 
-func (s *OrderServiceImpl) PlaceOrder(customerID string, itemIDs []string) (float64, error) {
+func (s *OrderServiceImpl) PlaceOrder(customerID string, itemIDs []uuid.UUID) (float64, error) {
 	customer, err := s.cp.Find(customerID)
 	if err != nil {
 		return 0.0, err
@@ -33,7 +34,7 @@ func (s *OrderServiceImpl) PlaceOrder(customerID string, itemIDs []string) (floa
 	var products []*aggregate.Product
 
 	for _, itemID := range itemIDs {
-		product, err := s.rp.Find(itemID)
+		product, err := s.rp.Find(itemID.String())
 		if err != nil {
 			return 0.0, err
 		}
