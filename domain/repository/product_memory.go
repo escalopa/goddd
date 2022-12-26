@@ -1,8 +1,10 @@
 package repository
 
 import (
-	"github.com/escalopa/ddd-go/aggregate"
+	"context"
 	"sync"
+
+	"github.com/escalopa/ddd-go/aggregate"
 )
 
 type ProductMemoryRepository struct {
@@ -16,7 +18,7 @@ func NewMemoryProductRepository() ProductRepository {
 	}
 }
 
-func (r *ProductMemoryRepository) Find(id string) (*aggregate.Product, error) {
+func (r *ProductMemoryRepository) Find(_ context.Context, id string) (*aggregate.Product, error) {
 	product, ok := r.products[id]
 	if !ok {
 		return nil, ErrorProductNotFound
@@ -24,7 +26,7 @@ func (r *ProductMemoryRepository) Find(id string) (*aggregate.Product, error) {
 	return product, nil
 }
 
-func (r *ProductMemoryRepository) FindAll() ([]*aggregate.Product, error) {
+func (r *ProductMemoryRepository) FindAll(_ context.Context) ([]*aggregate.Product, error) {
 	var products []*aggregate.Product
 	for _, product := range r.products {
 		products = append(products, product)
@@ -32,7 +34,7 @@ func (r *ProductMemoryRepository) FindAll() ([]*aggregate.Product, error) {
 	return products, nil
 }
 
-func (r *ProductMemoryRepository) Save(product *aggregate.Product) error {
+func (r *ProductMemoryRepository) Save(_ context.Context, product *aggregate.Product) error {
 	r.Lock()
 	defer r.Unlock()
 
@@ -40,7 +42,7 @@ func (r *ProductMemoryRepository) Save(product *aggregate.Product) error {
 	return nil
 }
 
-func (r *ProductMemoryRepository) Update(product *aggregate.Product) error {
+func (r *ProductMemoryRepository) Update(_ context.Context, product *aggregate.Product) error {
 	r.Lock()
 	defer r.Unlock()
 
@@ -52,7 +54,7 @@ func (r *ProductMemoryRepository) Update(product *aggregate.Product) error {
 	return nil
 }
 
-func (r *ProductMemoryRepository) Delete(id string) error {
+func (r *ProductMemoryRepository) Delete(_ context.Context, id string) error {
 	r.Lock()
 	defer r.Unlock()
 

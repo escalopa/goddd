@@ -1,8 +1,10 @@
 package repository
 
 import (
-	"github.com/escalopa/ddd-go/aggregate"
+	"context"
 	"testing"
+
+	"github.com/escalopa/ddd-go/aggregate"
 )
 
 func TestProductMemoryRepository_Find(t *testing.T) {
@@ -21,7 +23,7 @@ func TestProductMemoryRepository_Find(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			repo := NewMemoryProductRepository()
-			_, err := repo.Find(tc.id)
+			_, err := repo.Find(context.Background(), tc.id)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
@@ -43,7 +45,7 @@ func TestProductMemoryRepository_FindAll(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			repo := NewMemoryProductRepository()
-			_, err := repo.FindAll()
+			_, err := repo.FindAll(context.Background())
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
@@ -75,7 +77,7 @@ func TestProductMemoryRepository_Save(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			err = repo.Save(prod)
+			err = repo.Save(context.Background(), prod)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
@@ -108,13 +110,13 @@ func TestProductMemoryRepository_Update(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			err = repo.Save(prod)
+			err = repo.Save(context.Background(), prod)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
 
 			// TODO - Update Product
-			err = repo.Update(prod)
+			err = repo.Update(context.Background(), prod)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
@@ -147,18 +149,18 @@ func TestProductMemoryRepository_Delete(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			err = repo.Save(prod)
+			err = repo.Save(context.Background(), prod)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
 
-			err = repo.Delete(prod.GetID())
+			err = repo.Delete(context.Background(), prod.GetID())
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
 
 			if err == nil {
-				_, err = repo.Find(prod.GetID())
+				_, err = repo.Find(context.Background(), prod.GetID())
 				if err != ErrorProductNotFound {
 					t.Errorf("Expected error %v, got %v", ErrorProductNotFound, err)
 				}

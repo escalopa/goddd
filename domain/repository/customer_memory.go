@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"sync"
 
 	"github.com/escalopa/ddd-go/aggregate"
@@ -17,7 +18,7 @@ func NewMemoryCustomerRepository() *CustomerMemoryRepository {
 	}
 }
 
-func (r *CustomerMemoryRepository) Find(id string) (*aggregate.Customer, error) {
+func (r *CustomerMemoryRepository) Find(_ context.Context, id string) (*aggregate.Customer, error) {
 	customer, ok := r.customers[id]
 	if !ok {
 		return nil, ErrorCustomerNotFound
@@ -25,7 +26,7 @@ func (r *CustomerMemoryRepository) Find(id string) (*aggregate.Customer, error) 
 	return customer, nil
 }
 
-func (r *CustomerMemoryRepository) Save(customer *aggregate.Customer) error {
+func (r *CustomerMemoryRepository) Save(_ context.Context, customer *aggregate.Customer) error {
 	r.Lock()
 	defer r.Unlock()
 
@@ -37,7 +38,7 @@ func (r *CustomerMemoryRepository) Save(customer *aggregate.Customer) error {
 	return nil
 }
 
-func (r *CustomerMemoryRepository) Update(customer *aggregate.Customer) error {
+func (r *CustomerMemoryRepository) Update(_ context.Context, customer *aggregate.Customer) error {
 	r.Lock()
 	defer r.Unlock()
 

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"errors"
 
 	"github.com/escalopa/ddd-go/aggregate"
@@ -14,15 +15,15 @@ var (
 )
 
 type CustomerRepository interface {
-	Find(id string) (*aggregate.Customer, error)
-	Save(customer *aggregate.Customer) error
-	Update(customer *aggregate.Customer) error
+	Find(ctx context.Context, uuid string) (*aggregate.Customer, error)
+	Save(ctx context.Context, customer *aggregate.Customer) error
+	Update(ctx context.Context, customer *aggregate.Customer) error
 }
 
 type ProductRepository interface {
-	Find(id string) (*aggregate.Product, error)
-	Save(product *aggregate.Product) error
-	Update(product *aggregate.Product) error
-	FindAll() ([]*aggregate.Product, error)
-	Delete(id string) error
+	Find(ctx context.Context, uuid string) (*aggregate.Product, error)
+	Save(ctx context.Context, product *aggregate.Product) error
+	Update(ctx context.Context, product *aggregate.Product) error
+	FindAll(ctx context.Context) ([]*aggregate.Product, error)
+	Delete(ctx context.Context, uuid string) error
 }

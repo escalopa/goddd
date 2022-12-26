@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"context"
 	"testing"
 
 	"github.com/escalopa/ddd-go/aggregate"
@@ -15,7 +16,7 @@ func TestCustomerMemoryRepository_Find(t *testing.T) {
 	}
 	id := customer.GetID()
 	repo := NewMemoryCustomerRepository()
-	err = repo.Save(customer)
+	err = repo.Save(context.Background(), customer)
 	if err != nil {
 		return
 	}
@@ -39,7 +40,7 @@ func TestCustomerMemoryRepository_Find(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 
-			_, err := repo.Find(tc.id)
+			_, err := repo.Find(context.Background(), tc.id)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
@@ -69,12 +70,12 @@ func TestCustomerMemoryRepository_Save(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			err = repo.Save(cust)
+			err = repo.Save(context.Background(), cust)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
 
-			found, err := repo.Find(cust.GetID())
+			found, err := repo.Find(context.Background(), cust.GetID())
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -108,20 +109,20 @@ func TestCustomerMemoryRepository_Update(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			err = repo.Save(customer)
+			err = repo.Save(context.Background(), customer)
 			if err != nil {
 				t.Fatal(err)
 			}
-			err = customer.UpdateName(tc.newName)
+			err = customer.SetName(tc.newName)
 			if err != nil {
 				t.Fatal(err)
 			}
-			err = repo.Update(customer)
+			err = repo.Update(context.Background(), customer)
 			if err != tc.expectedErr {
 				t.Errorf("Expected error %v, got %v", tc.expectedErr, err)
 			}
 			if err == nil {
-				found, err := repo.Find(customer.GetID())
+				found, err := repo.Find(context.Background(), customer.GetID())
 				if err != nil {
 					t.Fatal(err)
 				}
