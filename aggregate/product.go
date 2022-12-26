@@ -48,6 +48,56 @@ func (p *Product) GetPrice() float64 {
 	return p.price
 }
 
+func (p *Product) GetQuantity() int {
+	return p.quantity
+}
+
+func (p *Product) SetID(id string) error {
+	if err := p.item.SetID(id); err != nil {
+		return err
+	}
+	if err := p.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Product) SetName(name string) error {
+	if err := p.item.SetName(name); err != nil {
+		return err
+	}
+	if err := p.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Product) SetDescription(description string) error {
+	if err := p.item.SetDescription(description); err != nil {
+		return err
+	}
+	if err := p.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Product) SetPrice(price float64) error {
+	p.price = price
+	if err := p.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (p *Product) SetQuantity(quantity int) error {
+	p.quantity = quantity
+	if err := p.Validate(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (p *Product) Validate() error {
 	if p.item == nil {
 		return ErrorEmptyItem

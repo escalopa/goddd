@@ -43,7 +43,15 @@ func (c *Customer) GetName() string {
 	return c.person.Name
 }
 
-func (c *Customer) UpdateName(name string) error {
+func (c *Customer) SetID(id string) error {
+	var err error
+	c.person.ID, err = uuid.Parse(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func (c *Customer) SetName(name string) error {
 	if name == "" {
 		return ErrorEmptyName
 	}
