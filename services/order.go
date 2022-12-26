@@ -1,7 +1,7 @@
 package services
 
 import (
-	repo "github.com/escalopa/ddd-go/domain/repository"
+	repo "github.com/escalopa/ddd-go/repository"
 	"github.com/google/uuid"
 )
 

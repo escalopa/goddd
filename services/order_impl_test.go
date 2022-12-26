@@ -1,11 +1,12 @@
 package services
 
 import (
+	"context"
 	"strconv"
 	"testing"
 
 	"github.com/escalopa/ddd-go/aggregate"
-	"github.com/escalopa/ddd-go/domain/repository"
+	"github.com/escalopa/ddd-go/repository"
 	"github.com/google/uuid"
 )
 
@@ -37,7 +38,7 @@ func createRandomRepositories() (cr repository.CustomerRepository, pr repository
 	if err != nil {
 		return nil, nil, err
 	}
-	err = cr.Save(tcust)
+	err = cr.Save(context.Background(), tcust)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -47,7 +48,7 @@ func createRandomRepositories() (cr repository.CustomerRepository, pr repository
 		return nil, nil, err
 	}
 	for _, p := range tprod {
-		err = pr.Save(p)
+		err = pr.Save(context.Background(), p)
 		if err != nil {
 			return nil, nil, err
 		}
