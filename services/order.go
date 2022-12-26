@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/escalopa/ddd-go/memory"
 	repo "github.com/escalopa/ddd-go/repository"
 	"github.com/google/uuid"
 )
@@ -21,7 +22,7 @@ func WithCustomerRepository(cr repo.CustomerRepository) OrderConfig {
 }
 
 func WithMemoryCustomerRepository() OrderConfig {
-	cr := repo.NewMemoryCustomerRepository()
+	cr := memory.NewMemoryCustomerRepository()
 	return WithCustomerRepository(cr)
 }
 
@@ -33,6 +34,6 @@ func WithProductRepository(pr repo.ProductRepository) OrderConfig {
 }
 
 func WithMemoryProductRepository() OrderConfig {
-	pr := repo.NewMemoryProductRepository()
+	pr := memory.NewMemoryProductRepository()
 	return WithProductRepository(pr)
 }

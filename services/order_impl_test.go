@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"github.com/escalopa/ddd-go/memory"
 	"strconv"
 	"testing"
 
@@ -32,8 +33,8 @@ func TestOrderServiceImpl_PlaceOrder(t *testing.T) {
 }
 
 func createRandomRepositories() (cr repository.CustomerRepository, pr repository.ProductRepository, err error) {
-	cr = repository.NewMemoryCustomerRepository()
-	pr = repository.NewMemoryProductRepository()
+	cr = memory.NewMemoryCustomerRepository()
+	pr = memory.NewMemoryProductRepository()
 	tcust, err = createRandomCustomer()
 	if err != nil {
 		return nil, nil, err
