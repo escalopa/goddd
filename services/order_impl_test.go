@@ -1,7 +1,6 @@
 package services
 
 import (
-	"log"
 	"strconv"
 	"testing"
 
@@ -13,23 +12,6 @@ import (
 var tos OrderService
 var tcust *aggregate.Customer
 var tprod []*aggregate.Product
-
-func TestMain(m *testing.M) {
-	cr, pr, err := createRandomRepositories()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	tos, err = NewOrderServiceImpl(
-		WithCustomerRepository(cr),
-		WithProductRepository(pr),
-	)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	m.Run()
-}
 
 func TestOrderServiceImpl_PlaceOrder(t *testing.T) {
 	var itemIDs []uuid.UUID
